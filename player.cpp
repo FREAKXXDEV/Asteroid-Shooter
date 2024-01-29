@@ -1,13 +1,14 @@
 #include "player.h"
 
-Player::Player(sf::Vector2f position, std::vector<Meteor*> &meteors)
+Player::Player(sf::Vector2f position, std::vector<Meteor*> &meteors, Scoreboard &scoreboard)
 	: rect(sf::Vector2f(99, 75))
 	, direction(0.0f, 0.0f) 
 	, speed{ 600.0f }
 	, lasers{}
 	, canShoot{ true } 
 	, timeSinceShoot{} 
-	, meteors{ meteors } {
+	, meteors{ meteors } 
+	, scoreboard{ scoreboard } {
 
 	rect.setOrigin(rect.getSize() / 2.0f);
 	rect.setPosition(position);
@@ -107,6 +108,9 @@ void Player::checkLaserMeteorCollision() {
 
 			if (laserCollider.isColliding(meteorCollider)) {
 				explosionMusic.play();
+				int score = (*meteor)->getScale() * 2;
+				if (score < 0) score = 1;
+				scoreboard.incrementScore(score);
 
 				delete *meteor;
 				meteor = meteors.erase(meteor);

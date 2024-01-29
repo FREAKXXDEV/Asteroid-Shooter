@@ -13,6 +13,7 @@ public:
 
 	sf::Vector2f getPosition() const { return rect.getPosition(); }
 	Collider getCollider() { return Collider(rect); }
+	float getScale() { return rect.getScale().x; }
 
 	void setPosition(sf::Vector2f position) { rect.setPosition(position); }
 	void setTexture(sf::Texture &texture) { rect.setTexture(&texture); }

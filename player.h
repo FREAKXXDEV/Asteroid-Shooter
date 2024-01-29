@@ -4,10 +4,11 @@
 #include "laser.h"
 #include "meteor.h"
 #include "collider.h"
+#include "scoreBoard.h"
 
 class Player {
 public:
-	Player(sf::Vector2f position, std::vector<Meteor*> &meteors);
+	Player(sf::Vector2f position, std::vector<Meteor*> &meteors, Scoreboard &scoreboard);
 
 	void draw(sf::RenderWindow &window);
 	void update(float deltaTime);
@@ -45,4 +46,6 @@ private:
 
 	sf::Music laserMusic;
 	sf::Music explosionMusic;
+
+	Scoreboard &scoreboard;
 };

@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "filepaths.h"
@@ -7,6 +8,7 @@
 #include "meteor.h"
 #include "laser.h"
 #include "collider.h"
+#include "scoreBoard.h"
 
 class Game {
 public:
@@ -35,4 +37,7 @@ private:
 
 	sf::Music gameMusic;
 	sf::Music explosionMusic;
+
+	Scoreboard scoreboard;
+	float runtimeScore;
 };

@@ -2,10 +2,12 @@
 
 Game::Game()
 	: window(sf::VideoMode(840, 520), "Asteroid Shower", sf::Style::Close)
-	, player(sf::Vector2f(window.getSize().x / 2.0f, window.getSize().y - 96.0f), meteors) 
+	, player(sf::Vector2f(window.getSize().x / 2.0f, window.getSize().y - 96.0f), meteors, scoreboard) 
 	, meteors{}
 	, canSpawnMeteor{ true }
-	, timeSinceLastMeteor{} {
+	, timeSinceLastMeteor{} 
+	, scoreboard(40.0f, 20.0f)
+	, runtimeScore{ 0.0f } {
 
 	textures.load(Textures::Spaceship, Filepaths::playerSprite);
 	textures.load(Textures::Laser, Filepaths::laserSprite);
@@ -21,6 +23,8 @@ Game::Game()
 
 	player.setLaserMusic(Filepaths::laserMusic);
 	player.setExplosionMusic(Filepaths::explosion);
+
+	scoreboard.loadFont(Filepaths::gameFont);
 }
 
 void Game::run() {
@@ -54,6 +58,14 @@ void Game::update(float deltaTime) {
 	spawnMeteor();
 	meteorTimer(deltaTime);
 	updateMeteors(deltaTime);
+
+	scoreboard.update();
+
+	runtimeScore += deltaTime;
+	if (runtimeScore >= 1.0f) {
+		scoreboard.incrementScore((int)runtimeScore);
+		runtimeScore -= 1.0f;
+	}
 }
 
 void Game::render() {
@@ -62,6 +74,7 @@ void Game::render() {
 	for (int i = 0; i < meteors.size(); i++)
 		meteors[i]->draw(window);
 	player.draw(window);
+	scoreboard.draw(window);
 
 	window.display();
 }
@@ -105,7 +118,9 @@ void Game::checkGameOver() {
 		Collider meteorCollider = (*it)->getCollider();
 	
 		if (playerCollider.isColliding(meteorCollider)) {
-			printf("Game Over! \n");
+			std::cout << "Game Over! \n";
+			std::cout << "Your Score: " << std::to_string(scoreboard.getScore()) << '\n';
+			
 			window.close();
 			return;
 		}

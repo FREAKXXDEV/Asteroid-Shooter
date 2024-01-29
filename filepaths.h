@@ -9,4 +9,6 @@ namespace Filepaths {
 	const std::string backgroundMusic = "Resources/background.wav";
 	const std::string laserMusic = "Resources/laser.ogg";
 	const std::string explosion = "Resources/explosion.wav";
+
+	const std::string gameFont = "Resources/subatomic.ttf";
 }
